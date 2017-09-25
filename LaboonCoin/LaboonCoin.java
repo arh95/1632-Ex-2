@@ -80,13 +80,13 @@ public class LaboonCoin {
      */
 
     public int hash(String data) {
-	int n = 10000000;
+	     int n = 10000000;
         for (char c : data.toCharArray()){
             n *= (int) c;
             n += (int) c;
 
         }
-	return n;
+	       return n;
     }
 
     /**
