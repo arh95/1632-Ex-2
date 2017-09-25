@@ -100,8 +100,14 @@ public class LaboonCoin {
      */
     
     public boolean validHash(int difficulty, int hash) {
-	// TODO - CHECK FOR VALID HASHES
-	return false;
+        String hexHash = Integer.toHexString(hash);
+        String substring = hexHash.substring(0, difficulty);
+        for(char c : substring.toCharArray()){
+            if(c != '0') return false;
+        }
+        
+        
+	return true;
     }
 
     /**
