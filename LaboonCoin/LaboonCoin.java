@@ -105,7 +105,7 @@ public class LaboonCoin {
      */
     
     public boolean validHash(int difficulty, int hash) {
-        String hexHash = Integer.toHexString(hash);
+       String hexHash = String.format("%08x", hash & 0xFFFFFFFF);
         String substring = hexHash.substring(0, difficulty);
         for(char c : substring.toCharArray()){
             if(c != '0') return false;
