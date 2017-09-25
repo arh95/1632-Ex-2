@@ -65,28 +65,28 @@ public class LaboonCoinTest {
         int validHash = 0x000fd98a;
         int difficulty = 3;
         boolean hashValidity = _l.validHash(difficulty, validHash);
-        assert(hashValidity == true);
+        assertTrue(hashValidity);
     }
     @Test
     public void testTrailingHash(){
         int invalidHash = 0xab000000;
         int difficulty = 3;
         boolean hashValidity = _l.validHash(difficulty, invalidHash);
-        assert(hashValidity == false);
+        assertFalse(hashValidity);
     }
     @Test
     public void testInsufficientHash(){
         int invalidHash = 0x098ab873;
         int difficulty = 3;
         boolean hashValidity = _l.validHash(difficulty, invalidHash);
-        assert(hashValidity == false);
+        assertFalse(hashValidity);
     }
     @Test
     public void testSurplusHash(){
         int validHash = 0x000000d4;
         int difficulty = 3;
         boolean hashValidity = _l.validHash(difficulty, validHash);
-        assert(hashValidity == true);
+        assertTrue(hashValidity);
     }
     public void testNullHash() {
       assert(_l.hash(null) == 0x00989680);
