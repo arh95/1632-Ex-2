@@ -57,7 +57,35 @@ public class LaboonCoinTest {
 	String blockChain = _l.getBlockChain();
 	assertEquals("TESTBLOCK1|00000000|000010e9|000a3cd8\nTESTBLOCK2|000a3cd8|00002ca8|0008ff30\nTESTBLOCK3|0008ff30|00002171|0009f908\n", blockChain);
     }
+    
 	    
     // TODO - PUT YOUR SIX TESTS HERE
-    
+    @Test
+    public void testValidHash(){
+        int validHash = 0x000fd98a;
+        int difficulty = 3;
+        boolean hashValidity = _l.validHash(difficulty, validHash);
+        assert(hashValidity == true);
+    }
+    @Test
+    public void testTrailingHash(){
+        int invalidHash = 0xab000000;
+        int difficulty = 3;
+        boolean hashValidity = _l.validHash(difficulty, invalidHash);
+        assert(hashValidity == false);
+    }
+    @Test
+    public void testInsufficientHash(){
+        int invalidHash = 0x098ab873;
+        int difficulty = 3;
+        boolean hashValidity = _l.validHash(difficulty, invalidHash);
+        assert(hashValidity == false);
+    }
+    @Test
+    public void testSurplusHash(){
+        int validHash = 0x000000d4;
+        int difficulty = 3;
+        boolean hashValidity = _l.validHash(difficulty, validHash);
+        assert(hashValidity == true);
+    }
 }
