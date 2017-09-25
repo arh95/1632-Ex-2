@@ -15,13 +15,13 @@ public class LaboonCoin {
      * Example:
      * Bill Gave Joe $10|00000000|001aa59c|000e854a
      * ^data             ^prev    ^nonce   ^finalHash
-     * @param data - Included block data 
+     * @param data - Included block data
      * @param prevHash - The hash value of the previous block
      * @param nonce - the nonce value for this block
      * @param hash - the final hash value for this block
      * @return String - string representation of the block
      */
-    
+
     public String createBlock(String data, int prevHash, int nonce, int hash) {
 	return data + "|"
 	    + String.format("%08x", prevHash) + "|"
@@ -31,13 +31,13 @@ public class LaboonCoin {
     }
 
     /**
-     * Return the entire blockchain, separated by \n's 
+     * Return the entire blockchain, separated by \n's
      * (carriage returns) as a String.
      * @return String - string format of the entire blockchain
      */
     public String getBlockChain() {
 	StringBuilder toReturn = new StringBuilder();
-	
+
 	for (String block : blockchain) {
 	    toReturn.append(block);
 	    toReturn.append("\n");
@@ -54,7 +54,7 @@ public class LaboonCoin {
      * The LaboonHash algorithm is as follows:
      *   1. Convert a String into a sequence of characters
      *   2. Initialize a starting value, n, of 10000000 (10 million)
-     *   3. For each character, multiply n by its ASCII (char) value 
+     *   3. For each character, multiply n by its ASCII (char) value
      *   4. After multiplication, add the value of the ASCII (char) value to n
      *   5. Return n
      * For example, the LaboonHash of "boo" is:
@@ -78,10 +78,14 @@ public class LaboonCoin {
      * @param data - entire piece of data to hash
      * @return int - hash value using LaboonHash algorithm
      */
-    
+
     public int hash(String data) {
 	// TODO - IMPLEMENT LABOONHASH
-	return -1;
+      int n = 10000000;
+      for (char x : data.toCharArray() ) {
+       n = (n * Character.getNumericValue(x)) + Character.getNumericValue(x);
+      }
+	     return n;
     }
 
     /**
@@ -89,16 +93,16 @@ public class LaboonCoin {
      * has that many 0's at its beginning, when expressed as a hex String.
      * For example, assume difficulty level is set to 3.
      * 0x098ab873 is NOT valid - it only has one 0 at the beginning
-     * 0xab000000 is NOT valid - despite having six 0's, they are not at the 
+     * 0xab000000 is NOT valid - despite having six 0's, they are not at the
      *                           beginning
      * 0x000fd98a IS valid     - it has three 0's at the beginning
      * 0x000000d4 IS valid     - it has three 0's at the beginning, plus more
-     * 
+     *
      * @param difficulty - Difficulty level (number of 0's)
      * @param hash - hash value to check
      * @return boolean - true if hash is valid for a block, false otherwise
      */
-    
+
     public boolean validHash(int difficulty, int hash) {
 	// TODO - CHECK FOR VALID HASHES
 	return false;
@@ -106,10 +110,10 @@ public class LaboonCoin {
 
     /**
      * Given some data and the previous hash value, find a nonce that
-     * will make the data + hex string version of the previous hash 
+     * will make the data + hex string version of the previous hash
      * equal to a hash value with a given number of 0's at its front.
      * The difficulty is the number of 0's necessary.  Note that average
-     * time to hash will increase by a factor of 16 for each additional 
+     * time to hash will increase by a factor of 16 for each additional
      * level of difficulty.
      * Note that if difficulty is set too high, a nonce may NEVER be found
      * since we are using ints which are finite.  I recommend you leave
@@ -119,7 +123,7 @@ public class LaboonCoin {
      * @param difficulty - The number of 0's to consider a hash valid
      * @return int - A nonce which makes the block's hash valid
      */
-    
+
     public int mine(String data, int prevHash, int difficulty) {
 	int nonce = 0;
 	String toTry;
@@ -129,7 +133,7 @@ public class LaboonCoin {
 	    toTry = String.format("%08x", prevHash) + String.format("%08x", nonce) + data;
 	    // Uncomment for debugging purposes
 	    // System.out.print("Trying: " + toTry + ".. ");
-	    
+
 	    hashVal = hash(toTry);
 	    System.out.println("hash: " + String.format("%08x", hashVal));
 	    if (validHash(difficulty, hashVal)) {
@@ -147,11 +151,11 @@ public class LaboonCoin {
     /**
      * Run the program.
      * Loop until the user types 'q' or "Q" to quit.
-     * After entering the data, the 
+     * After entering the data, the
      * PrevHash for the first ("genesis") block is by default 0 (0x00000000).
-     * Note that this is in fact a valid hash for any 
+     * Note that this is in fact a valid hash for any
      */
-    
+
     public void run(int difficulty) {
 	Scanner sc = new Scanner(System.in);
 	boolean keepRunning = true;
@@ -168,7 +172,7 @@ public class LaboonCoin {
 		System.out.println("Mining..");
 		int nonce = mine(data, prevHash, difficulty);
 		System.out.println("Found nonce " + String.format("%08x", nonce) + "!");
-		int finalHash = hash( 
+		int finalHash = hash(
 				     String.format("%08x", prevHash)
 				     + String.format("%08x", nonce)
 				     + data);
@@ -180,7 +184,7 @@ public class LaboonCoin {
 
 		blockchain.add(newBlock);
 	    }
-	    
+
 	}
     }
 
@@ -194,7 +198,7 @@ public class LaboonCoin {
      * of 3.
      * @param args[] - command line arguments
      */
-    
+
     public static void main(String[] args) {
 	int difficulty = 3;
 	try {
