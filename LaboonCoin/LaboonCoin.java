@@ -80,12 +80,13 @@ public class LaboonCoin {
      */
 
     public int hash(String data) {
-	// TODO - IMPLEMENT LABOONHASH
-      int n = 10000000;
-      for (char x : data.toCharArray() ) {
-       n = (n * Character.getNumericValue(x)) + Character.getNumericValue(x);
-      }
-	     return n;
+	int n = 10000000;
+        for (char c : data.toCharArray()){
+            n *= (int) c;
+            n += (int) c;
+
+        }
+	return n;
     }
 
     /**
@@ -104,8 +105,12 @@ public class LaboonCoin {
      */
 
     public boolean validHash(int difficulty, int hash) {
-	// TODO - CHECK FOR VALID HASHES
-	return false;
+        String hexHash = Integer.toHexString(hash);
+        String substring = hexHash.substring(0, difficulty);
+        for(char c : substring.toCharArray()){
+            if(c != '0') return false;
+        }
+	return true;
     }
 
     /**
